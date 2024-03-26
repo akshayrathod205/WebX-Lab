@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html ng-app="registrationApp">
+  <head>
+    <title>Student Registration</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <style>
+      .registration-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .registration-form .form-group {
+        margin-bottom: 15px;
+      }
+
+      .registration-form .form-control {
+        border-radius: 3px;
+      }
+
+      .registration-form .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .error-message {
+        color: red;
+      }
+    </style>
+  </head>
+  <body ng-controller="RegistrationCtrl">
+    <div class="text-center"><h1>Student Registration</h1></div>
+
+    <form name="registrationForm" novalidate class="registration-form">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          ng-model="student.name"
+          required
+        />
+        <span
+          ng-show="registrationForm.name.$dirty && registrationForm.name.$error.required"
+          class="error-message"
+          >Name is required.</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          ng-model="student.email"
+          ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"
+          required
+        />
+        <span
+          ng-show="registrationForm.email.$dirty && registrationForm.email.$error.required"
+          class="error-message"
+          >Email is required.</span
+        >
+        <span
+          ng-show="registrationForm.email.$dirty && registrationForm.email.$error.pattern"
+          class="error-message"
+          >Please enter a valid email address.</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="studentId">Student ID:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="studentId"
+          name="studentId"
+          ng-model="student.studentId"
+          required
+        />
+        <span
+          ng-show="registrationForm.studentId.$dirty && registrationForm.studentId.$error.required"
+          class="error-message"
+          >Student ID is required.</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          ng-model="student.password"
+          required
+          minlength="8"
+        />
+        <span
+          ng-show="registrationForm.password.$dirty && registrationForm.password.$error.required"
+          class="error-message"
+          >Password is required.</span
+        >
+        <span
+          ng-show="registrationForm.password.$dirty && registrationForm.password.$error.minlength"
+          class="error-message"
+          >Password must be at least 8 characters long.</span
+        >
+      </div>
+
+      <div class="text-right">
+        <button
+          type="submit"
+          ng-disabled="registrationForm.$invalid"
+          ng-click="displayDetails()"
+          class="btn btn-primary"
+        >
+          Register Now
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center">
+      <div ng-show="showDetails">
+        <h2>Registered Student Details</h2>
+        <p>Name: {{ student.name }}</p>
+        <p>Email: {{ student.email }}</p>
+        <p>Student ID: {{ student.studentId }}</p>
+      </div>
+    </div>
+
+    <script>
+      var app = angular.module("registrationApp", []);
+
+      app.controller("RegistrationCtrl", function ($scope) {
+        $scope.student = {};
+        $scope.showDetails = false;
+
+        $scope.displayDetails = function () {
+          $scope.showDetails = true;
+        };
+      });
+    </script>
+  </body>
+</html>
